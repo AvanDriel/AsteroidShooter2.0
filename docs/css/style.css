@@ -16,7 +16,7 @@ body * {
 }
 
 
-spaceship {
+player {
 	width:64px; 
     min-height:64px;
 	background-image: url('../images/spaceship.png');
