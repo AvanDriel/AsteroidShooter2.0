@@ -59,7 +59,6 @@ var Game = (function () {
         var _this = this;
         this.bullets = new Array();
         this.asteroids = new Array();
-        console.log((window.innerWidth));
         this.player = new Player(this);
         for (var i = 0; i < 200; i++) {
             this.addAsteroid();
@@ -91,7 +90,8 @@ var Game = (function () {
         }
     };
     Game.prototype.addAsteroid = function () {
-        this.asteroids.push(new Asteroid(Math.floor((Math.random() * (window.innerWidth))) - 80, -50));
+        var a = new Asteroid(Math.floor((Math.random() * (window.innerWidth))) - 80, -50);
+        this.asteroids.push(a);
     };
     return Game;
 }());

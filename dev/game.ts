@@ -9,7 +9,6 @@ class Game {
     private asteroid : Asteroid;
 
     constructor() {
-        console.log((window.innerWidth));
     
         this.player = new Player(this);
 
@@ -50,8 +49,11 @@ class Game {
 		}
 	}
 
-    public addAsteroid(){
-        this.asteroids.push(new Asteroid(Math.floor((Math.random() * (window.innerWidth)))-80, -50));
+    public addAsteroid():void {       
+
+        let a:Asteroid = new Asteroid(Math.floor((Math.random() * (window.innerWidth)))-80, -50);
+        this.asteroids.push(a);
+
     }
 }
 
