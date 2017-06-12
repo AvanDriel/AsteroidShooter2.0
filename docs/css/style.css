@@ -1,0 +1,42 @@
+html, body {
+    background-color: #70CF51;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow:hidden;
+    margin:0px; padding:0px;
+    background-image: url('../images/bg.png');
+    background-size: cover;
+}
+
+body * {
+    position: absolute;
+    display: block;
+    margin:0px; padding:0px;
+    box-sizing: border-box;
+    background-repeat: no-repeat;
+}
+
+
+spaceship {
+	width:64px; 
+    min-height:64px;
+	background-image: url('../images/spaceship.png');
+}
+
+asteroid {
+    width: 100px; height: 100px;
+    background-image: url('../images/asteroid-icon.png');
+    background-size: cover;
+    background-position: center;   
+    animation: rotate 4s linear infinite;
+
+
+}
+
+bullet{
+    background-image: url('../images/bullet.png');
+    width: 13px; height: 54px;
+}
+
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
