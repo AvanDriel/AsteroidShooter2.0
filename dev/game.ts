@@ -7,6 +7,7 @@ class Game {
     private bullet: Bullet;
 
     constructor() {
+        console.log((window.innerWidth));
     
         this.player = new Player(this);
 
@@ -26,5 +27,17 @@ class Game {
     public addBullet(b:Bullet){
         this.bullets.push(b);
     }
+
+    public removeBullet(b: Bullet) {
+        // div en listeners verwijderen
+        b.removeBulletDiv();
+
+        // ball instance verwijderen uit de array
+		let i : number = this.bullets.indexOf(b);
+		if(i != -1) {
+			this.bullets.splice(i, 1);
+		}
+	}
+
 } 
 

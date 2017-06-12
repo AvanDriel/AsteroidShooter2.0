@@ -3,10 +3,11 @@ class Player extends Gameobject{
 //Determine keys you can press
     private leftKey : number = 65;      // A key
     public leftKeyHit : boolean = false;
-    public speedX : number = 0;
+    public leftSpeed : number = 0;
 
     private rightKey : number = 68;     // D key
     public rightKeyHit : boolean = false;
+    public rightSpeed : number = 0;
     
     private spacebar : number = 32;     // Spacebar
     public spacebarHit : boolean = false;
@@ -26,23 +27,28 @@ class Player extends Gameobject{
 
     public move(){
         if(this.posX < 1){
-            this.speedX = 0;
-        }else if(this.posX > (window.innerWidth)){
-             this.speedX = 0;
+            this.leftSpeed = 0;
         } else {
-            this.posX += this.speedX;
+            this.posX -= this.leftSpeed;
+            this.div.style.transform = "translate("+this.posX+"vx,"+this.posY+"px)";
+        }
+        
+        if(this.posX > (window.innerWidth-64)){
+             this.rightSpeed = 0;
+        }else {
+            this.posX += this.rightSpeed;
             this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
         }
     }
 
     //what happens when you press the declared keys
      onKeyDown(event:KeyboardEvent):void {
-        switch(event.keyCode){
+        switch(event.keyCode){  
         case this.leftKey:
-            this.speedX = -7;
+            this.leftSpeed = 7;
             break;
         case this.rightKey:
-            this.speedX = 7;
+            this.rightSpeed = 7;
             break;
         case this.spacebar:
             this.playerFire(); 
@@ -52,7 +58,7 @@ class Player extends Gameobject{
 
     //and what if you let them go? 
     onKeyUp(event:KeyboardEvent):void {
-        this.speedX = 0;
+        this.leftSpeed = this.rightSpeed =0;
     }
 
     //Let the spaceship shoot!
@@ -61,7 +67,7 @@ class Player extends Gameobject{
         let rect:ClientRect = this.div.getBoundingClientRect();      
         console.log("plaats een kogel op " + rect.left + " , " + rect.top);
 
-        let b:Bullet = new Bullet(rect.left + 26, rect.top - 31);
+        let b:Bullet = new Bullet(rect.left + 26, rect.top - 31, this.game);
         this.game.addBullet(b);
     }
 

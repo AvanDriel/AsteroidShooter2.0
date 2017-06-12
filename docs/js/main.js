@@ -21,8 +21,9 @@ var Gameobject = (function () {
 }());
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
-    function Bullet(x, y) {
+    function Bullet(x, y, game) {
         var _this = _super.call(this, "bullet", 20, 20, x, y) || this;
+        _this.game = game;
         _this.speedX = 0;
         _this.speedY = -10;
         _this.move();
@@ -32,6 +33,12 @@ var Bullet = (function (_super) {
         this.posX += this.speedX;
         this.posY += this.speedY;
         this.div.style.transform = "translate(" + this.posX + "px, " + this.posY + "px)";
+        if (this.posY < -20) {
+            this.game.removeBullet(this);
+        }
+    };
+    Bullet.prototype.removeBulletDiv = function () {
+        this.div.remove();
     };
     return Bullet;
 }(Gameobject));
@@ -39,6 +46,7 @@ var Game = (function () {
     function Game() {
         var _this = this;
         this.bullets = new Array();
+        console.log((window.innerWidth));
         this.player = new Player(this);
         requestAnimationFrame(function () { return _this.gameLoop(); });
     }
@@ -54,6 +62,13 @@ var Game = (function () {
     Game.prototype.addBullet = function (b) {
         this.bullets.push(b);
     };
+    Game.prototype.removeBullet = function (b) {
+        b.removeBulletDiv();
+        var i = this.bullets.indexOf(b);
+        if (i != -1) {
+            this.bullets.splice(i, 1);
+        }
+    };
     return Game;
 }());
 window.addEventListener("load", function () {
@@ -65,9 +80,10 @@ var Player = (function (_super) {
         var _this = _super.call(this, "player", 64, 64, (window.innerWidth / 2 - 32), (window.innerHeight) - 100) || this;
         _this.leftKey = 65;
         _this.leftKeyHit = false;
-        _this.speedX = 0;
+        _this.leftSpeed = 0;
         _this.rightKey = 68;
         _this.rightKeyHit = false;
+        _this.rightSpeed = 0;
         _this.spacebar = 32;
         _this.spacebarHit = false;
         _this.game = g;
@@ -78,35 +94,39 @@ var Player = (function (_super) {
     }
     Player.prototype.move = function () {
         if (this.posX < 1) {
-            this.speedX = 0;
-        }
-        else if (this.posX > (window.innerWidth)) {
-            this.speedX = 0;
+            this.leftSpeed = 0;
         }
         else {
-            this.posX += this.speedX;
+            this.posX -= this.leftSpeed;
+            this.div.style.transform = "translate(" + this.posX + "vx," + this.posY + "px)";
+        }
+        if (this.posX > (window.innerWidth - 64)) {
+            this.rightSpeed = 0;
+        }
+        else {
+            this.posX += this.rightSpeed;
             this.div.style.transform = "translate(" + this.posX + "px," + this.posY + "px)";
         }
     };
     Player.prototype.onKeyDown = function (event) {
         switch (event.keyCode) {
             case this.leftKey:
-                this.speedX = -7;
+                this.leftSpeed = 7;
                 break;
             case this.rightKey:
-                this.speedX = 7;
+                this.rightSpeed = 7;
                 break;
             case this.spacebar:
                 this.playerFire();
         }
     };
     Player.prototype.onKeyUp = function (event) {
-        this.speedX = 0;
+        this.leftSpeed = this.rightSpeed = 0;
     };
     Player.prototype.playerFire = function () {
         var rect = this.div.getBoundingClientRect();
         console.log("plaats een kogel op " + rect.left + " , " + rect.top);
-        var b = new Bullet(rect.left + 26, rect.top - 31);
+        var b = new Bullet(rect.left + 26, rect.top - 31, this.game);
         this.game.addBullet(b);
     };
     return Player;
