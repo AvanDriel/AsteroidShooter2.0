@@ -96,7 +96,7 @@ var Game = (function () {
     return Game;
 }());
 window.addEventListener("load", function () {
-    new Game();
+    new startScreen();
 });
 var Player = (function (_super) {
     __extends(Player, _super);
@@ -154,4 +154,18 @@ var Player = (function (_super) {
     };
     return Player;
 }(Gameobject));
+var startScreen = (function () {
+    function startScreen() {
+        var _this = this;
+        this.button = document.createElement('start_but');
+        this.button.addEventListener("click", function () { return _this.deleteAll(); });
+        document.body.appendChild(this.button);
+    }
+    startScreen.prototype.deleteAll = function () {
+        this.button.remove();
+        this.button = undefined;
+        new Game();
+    };
+    return startScreen;
+}());
 //# sourceMappingURL=main.js.map
