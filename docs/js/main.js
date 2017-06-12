@@ -19,6 +19,19 @@ var Gameobject = (function () {
     }
     return Gameobject;
 }());
+var Asteroid = (function (_super) {
+    __extends(Asteroid, _super);
+    function Asteroid(x, y) {
+        var _this = _super.call(this, "asteroid", 64, 64, x, y) || this;
+        _this.speedY = 2;
+        return _this;
+    }
+    Asteroid.prototype.moveAsteroid = function () {
+        this.posY += this.speedY;
+        this.div.style.transform = "translate(" + this.posX + "px," + this.posY + "px)";
+    };
+    return Asteroid;
+}(Gameobject));
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet(x, y, game) {
@@ -26,10 +39,9 @@ var Bullet = (function (_super) {
         _this.game = game;
         _this.speedX = 0;
         _this.speedY = -10;
-        _this.move();
         return _this;
     }
-    Bullet.prototype.move = function () {
+    Bullet.prototype.moveBullet = function () {
         this.posX += this.speedX;
         this.posY += this.speedY;
         this.div.style.transform = "translate(" + this.posX + "px, " + this.posY + "px)";
@@ -46,8 +58,13 @@ var Game = (function () {
     function Game() {
         var _this = this;
         this.bullets = new Array();
+        this.asteroids = new Array();
         console.log((window.innerWidth));
         this.player = new Player(this);
+        for (var i = 0; i < 200; i++) {
+            this.addAsteroid();
+            window.setInterval(this.addAsteroid, 1000);
+        }
         requestAnimationFrame(function () { return _this.gameLoop(); });
     }
     Game.prototype.gameLoop = function () {
@@ -55,7 +72,11 @@ var Game = (function () {
         this.player.move();
         for (var _i = 0, _a = this.bullets; _i < _a.length; _i++) {
             var b = _a[_i];
-            b.move();
+            b.moveBullet();
+        }
+        for (var _b = 0, _c = this.asteroids; _b < _c.length; _b++) {
+            var a = _c[_b];
+            a.moveAsteroid();
         }
         requestAnimationFrame(function () { return _this.gameLoop(); });
     };
@@ -68,6 +89,9 @@ var Game = (function () {
         if (i != -1) {
             this.bullets.splice(i, 1);
         }
+    };
+    Game.prototype.addAsteroid = function () {
+        this.asteroids.push(new Asteroid(Math.floor((Math.random() * (window.innerWidth))) - 80, -50));
     };
     return Game;
 }());
@@ -87,7 +111,6 @@ var Player = (function (_super) {
         _this.spacebar = 32;
         _this.spacebarHit = false;
         _this.game = g;
-        _this.div.style.transform = "translate(" + _this.posX + "px," + _this.posY + "px)";
         window.addEventListener("keydown", function (e) { return _this.onKeyDown(e); });
         window.addEventListener("keyup", function (e) { return _this.onKeyUp(e); });
         return _this;

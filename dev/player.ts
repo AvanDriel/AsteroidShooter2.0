@@ -18,7 +18,7 @@ class Player extends Gameobject{
         
         this.game = g;
 
-        this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
+        // this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
 
         //add keypress listener
         window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e));

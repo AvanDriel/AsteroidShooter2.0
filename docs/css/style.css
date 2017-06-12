@@ -27,7 +27,7 @@ asteroid {
     background-image: url('../images/asteroid-icon.png');
     background-size: cover;
     background-position: center;   
-    animation: rotate 4s linear infinite;
+    /*animation: rotate 4s linear infinite;*/
 
 
 }

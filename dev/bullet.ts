@@ -9,10 +9,9 @@ class Bullet extends Gameobject {
         this.speedX = 0;
         this.speedY = -10;
 
-        this.move();
     }
 
-     public move():void {
+     public moveBullet():void {
         this.posX += this.speedX;
         this.posY += this.speedY;
         this.div.style.transform = "translate("+this.posX+"px, "+this.posY+"px)";
