@@ -23,13 +23,10 @@ var Asteroid = (function (_super) {
     __extends(Asteroid, _super);
     function Asteroid(x, y) {
         var _this = _super.call(this, "asteroid", 64, 64, x, y) || this;
+        console.log(x, y);
         _this.speedY = 2;
         return _this;
     }
-    Asteroid.prototype.moveAsteroid = function () {
-        this.posY += this.speedY;
-        this.div.style.transform = "translate(" + this.posX + "px," + this.posY + "px)";
-    };
     return Asteroid;
 }(Gameobject));
 var Bullet = (function (_super) {
@@ -60,10 +57,9 @@ var Game = (function () {
         this.bullets = new Array();
         this.asteroids = new Array();
         this.player = new Player(this);
-        for (var i = 0; i < 200; i++) {
-            this.addAsteroid();
-            window.setInterval(this.addAsteroid, 1000);
-        }
+        this.randomX = Math.floor((Math.random() * 1800) + 1);
+        console.log(this.randomX);
+        new Asteroid(this.randomX, 10);
         requestAnimationFrame(function () { return _this.gameLoop(); });
     }
     Game.prototype.gameLoop = function () {
@@ -72,10 +68,6 @@ var Game = (function () {
         for (var _i = 0, _a = this.bullets; _i < _a.length; _i++) {
             var b = _a[_i];
             b.moveBullet();
-        }
-        for (var _b = 0, _c = this.asteroids; _b < _c.length; _b++) {
-            var a = _c[_b];
-            a.moveAsteroid();
         }
         requestAnimationFrame(function () { return _this.gameLoop(); });
     };
@@ -88,10 +80,6 @@ var Game = (function () {
         if (i != -1) {
             this.bullets.splice(i, 1);
         }
-    };
-    Game.prototype.addAsteroid = function () {
-        var a = new Asteroid(Math.floor((Math.random() * (window.innerWidth))) - 80, -50);
-        this.asteroids.push(a);
     };
     return Game;
 }());

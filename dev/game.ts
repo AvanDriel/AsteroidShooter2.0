@@ -7,17 +7,19 @@ class Game {
     private bullet: Bullet;
     public asteroids:Array<Asteroid> = new Array<Asteroid>();
     private asteroid : Asteroid;
+    private randomX: number;
 
     constructor() {
     
         this.player = new Player(this);
 
-        for(let i = 0; i < 200; i++){
-            this.addAsteroid();
-            window.setInterval(this.addAsteroid, 1000);
-        }
+        this.randomX = Math.floor((Math.random() * 1800) + 1);
+        console.log(this.randomX);
+        // this.asteroids.push(
+            new Asteroid(this.randomX, 10)
+            // );
 
-        requestAnimationFrame(() => this.gameLoop());  
+        requestAnimationFrame(() => this.gameLoop());
     }
     
     private gameLoop(){
@@ -25,11 +27,7 @@ class Game {
 
         for(let b of this.bullets){
             b.moveBullet();
-        }     
-
-        for(let a of this.asteroids){
-            a.moveAsteroid();
-        }         
+        }            
 
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -48,13 +46,7 @@ class Game {
 			this.bullets.splice(i, 1);
 		}
 	}
-
-    public addAsteroid():void {       
-
-        let a:Asteroid = new Asteroid(Math.floor((Math.random() * (window.innerWidth)))-80, -50);
-        this.asteroids.push(a);
-
-    }
+    
 }
 
 
