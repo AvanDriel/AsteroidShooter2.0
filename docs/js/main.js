@@ -9,7 +9,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var Gameobject = (function () {
-    function Gameobject(htmlTag, width, height, posX, posY) {
+    function Gameobject(htmlTag, width, height, posX, posY, game) {
         this.width = width;
         this.height = height;
         this.posX = posX;
@@ -21,22 +21,29 @@ var Gameobject = (function () {
 }());
 var Asteroid = (function (_super) {
     __extends(Asteroid, _super);
-    function Asteroid(x, y) {
-        var _this = _super.call(this, "asteroid", 64, 64, x, y) || this;
+    function Asteroid(x, y, game) {
+        var _this = _super.call(this, "asteroid", 64, 64, x, y, game) || this;
         console.log(x, y);
+        _this.game = game;
         _this.speedY = 2;
         return _this;
     }
     Asteroid.prototype.moveAsteroid = function () {
         this.posY += this.speedY;
         this.div.style.transform = "translate(" + this.posX + "px," + this.posY + "px)";
+        if (this.posY > (window.innerHeight + 100)) {
+            this.game.removeAsteroid(this);
+        }
+    };
+    Asteroid.prototype.removeAsteroidDiv = function () {
+        this.div.remove();
     };
     return Asteroid;
 }(Gameobject));
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet(x, y, game) {
-        var _this = _super.call(this, "bullet", 20, 20, x, y) || this;
+        var _this = _super.call(this, "bullet", 20, 20, x, y, game) || this;
         _this.game = game;
         _this.speedX = 0;
         _this.speedY = -10;
@@ -90,7 +97,14 @@ var Game = (function () {
     Game.prototype.createAsteroid = function () {
         this.randomX = Math.floor((Math.random() * 1800) + 1);
         console.log(this.randomX);
-        this.asteroids.push(new Asteroid(this.randomX, -80));
+        this.asteroids.push(new Asteroid(this.randomX, -80, this));
+    };
+    Game.prototype.removeAsteroid = function (a) {
+        a.removeAsteroidDiv();
+        var i = this.asteroids.indexOf(a);
+        if (i != -1) {
+            this.asteroids.splice(i, 1);
+        }
     };
     return Game;
 }());
@@ -100,7 +114,7 @@ window.addEventListener("load", function () {
 var Player = (function (_super) {
     __extends(Player, _super);
     function Player(g) {
-        var _this = _super.call(this, "player", 64, 64, (window.innerWidth / 2 - 32), (window.innerHeight) - 100) || this;
+        var _this = _super.call(this, "player", 64, 64, (window.innerWidth / 2 - 32), (window.innerHeight) - 100, g) || this;
         _this.leftKey = 65;
         _this.leftKeyHit = false;
         _this.leftSpeed = 0;

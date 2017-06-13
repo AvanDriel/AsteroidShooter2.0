@@ -52,8 +52,19 @@ class Game {
         this.randomX = Math.floor((Math.random() * 1800) + 1);
         console.log(this.randomX);
         this.asteroids.push(
-            new Asteroid(this.randomX, -80)
+            new Asteroid(this.randomX, -80, this)
              );
+    }
+
+    public removeAsteroid(a: Asteroid){
+        // div verwijderen
+        a.removeAsteroidDiv();
+
+        // bullet instance verwijderen uit de array
+		let i : number = this.asteroids.indexOf(a);
+		if(i != -1) {
+			this.asteroids.splice(i, 1);
+		}
     }
     
 }

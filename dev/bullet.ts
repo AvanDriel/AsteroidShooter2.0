@@ -3,7 +3,7 @@ class Bullet extends Gameobject {
 
 
     constructor(x:number, y:number, game:Game){
-        super("bullet", 20, 20, x, y);
+        super("bullet", 20, 20, x, y, game);
 
         this.game = game;
         this.speedX = 0;

@@ -10,7 +10,7 @@ class Gameobject {
     protected player: Player;
     protected game: Game;
 
-    constructor(htmlTag: string, width: number, height: number, posX: number, posY:number){
+    constructor(htmlTag: string, width: number, height: number, posX: number, posY:number, game:Game){
         this.width = width;
         this.height = height;
         this.posX = posX;

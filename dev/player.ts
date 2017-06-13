@@ -14,7 +14,7 @@ class Player extends Gameobject{
 
     constructor(g:Game){
         //in the super, give element name, w/h and start position
-        super("player", 64, 64, (window.innerWidth /2 - 32), (window.innerHeight) - 100);
+        super("player", 64, 64, (window.innerWidth /2 - 32), (window.innerHeight) - 100, g);
         
         this.game = g;
 
