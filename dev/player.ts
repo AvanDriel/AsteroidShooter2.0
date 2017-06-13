@@ -68,6 +68,9 @@ class Player extends Gameobject{
 
         let b:Bullet = new Bullet(rect.left + 26, rect.top - 31, this.game);
         this.game.addBullet(b);
+
+        var audio = new Audio('../docs/sounds/laser.mp3');
+        audio.play();  
     }
 
 
