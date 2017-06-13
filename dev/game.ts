@@ -28,7 +28,25 @@ class Game {
 
         for(let a of this.asteroids){
             a.moveAsteroid();
-        }             
+        }        
+
+        for(let b of this.bullets){
+            for(let a of this.asteroids){
+                 if (b.posX                    < a.posX + a.width &&
+                     b.posX + b.width          > a.posX &&
+                     b.posY                    < a.posY + a.height &&
+                     b.height + b.posY         > a.posY) {  
+                        // this.counter++;
+                        // console.log(this.counter);
+
+                        this.removeBullet(b);
+                        this.removeAsteroid(a);
+                }
+            }
+        }
+
+
+
 
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -49,8 +67,7 @@ class Game {
 	}
 
     public createAsteroid(){
-        this.randomX = Math.floor((Math.random() * 1800) + 1);
-        console.log(this.randomX);
+        this.randomX = Math.floor((Math.random() * 1800) - 60);
         this.asteroids.push(
             new Asteroid(this.randomX, -80, this)
              );

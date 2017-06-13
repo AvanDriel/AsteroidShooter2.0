@@ -1,10 +1,10 @@
 class Gameobject {
 
     protected div:HTMLElement;
-    protected width: number;
-    protected height: number;
-    protected posX: number;
-    protected posY: number;
+    public width: number;
+    public height: number;
+    public posX: number;
+    public posY: number;
     protected speedX: number;
     protected speedY: number;
     protected player: Player;

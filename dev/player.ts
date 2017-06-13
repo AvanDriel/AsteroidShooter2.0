@@ -45,10 +45,10 @@ class Player extends Gameobject{
      onKeyDown(event:KeyboardEvent):void {
         switch(event.keyCode){  
         case this.leftKey:
-            this.leftSpeed = 7;
+            this.leftSpeed = 10;
             break;
         case this.rightKey:
-            this.rightSpeed = 7;
+            this.rightSpeed = 10;
             break;
         case this.spacebar:
             this.playerFire(); 
@@ -65,7 +65,6 @@ class Player extends Gameobject{
     public playerFire():void {
 
         let rect:ClientRect = this.div.getBoundingClientRect();      
-        console.log("plaats een kogel op " + rect.left + " , " + rect.top);
 
         let b:Bullet = new Bullet(rect.left + 26, rect.top - 31, this.game);
         this.game.addBullet(b);

@@ -2,8 +2,7 @@
 class Asteroid extends Gameobject {
 
     constructor(x:number, y:number, game:Game){
-        super("asteroid", 64, 64, x, y, game);
-        console.log(x, y);
+        super("asteroid", 100, 100, x, y, game);
 
         this.game = game;
         this.speedY = 2;        

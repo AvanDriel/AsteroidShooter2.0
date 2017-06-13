@@ -22,8 +22,7 @@ var Gameobject = (function () {
 var Asteroid = (function (_super) {
     __extends(Asteroid, _super);
     function Asteroid(x, y, game) {
-        var _this = _super.call(this, "asteroid", 64, 64, x, y, game) || this;
-        console.log(x, y);
+        var _this = _super.call(this, "asteroid", 100, 100, x, y, game) || this;
         _this.game = game;
         _this.speedY = 2;
         return _this;
@@ -43,7 +42,7 @@ var Asteroid = (function (_super) {
 var Bullet = (function (_super) {
     __extends(Bullet, _super);
     function Bullet(x, y, game) {
-        var _this = _super.call(this, "bullet", 20, 20, x, y, game) || this;
+        var _this = _super.call(this, "bullet", 13, 45, x, y, game) || this;
         _this.game = game;
         _this.speedX = 0;
         _this.speedY = -10;
@@ -82,6 +81,19 @@ var Game = (function () {
             var a = _c[_b];
             a.moveAsteroid();
         }
+        for (var _d = 0, _e = this.bullets; _d < _e.length; _d++) {
+            var b = _e[_d];
+            for (var _f = 0, _g = this.asteroids; _f < _g.length; _f++) {
+                var a = _g[_f];
+                if (b.posX < a.posX + a.width &&
+                    b.posX + b.width > a.posX &&
+                    b.posY < a.posY + a.height &&
+                    b.height + b.posY > a.posY) {
+                    this.removeBullet(b);
+                    this.removeAsteroid(a);
+                }
+            }
+        }
         requestAnimationFrame(function () { return _this.gameLoop(); });
     };
     Game.prototype.addBullet = function (b) {
@@ -95,8 +107,7 @@ var Game = (function () {
         }
     };
     Game.prototype.createAsteroid = function () {
-        this.randomX = Math.floor((Math.random() * 1800) + 1);
-        console.log(this.randomX);
+        this.randomX = Math.floor((Math.random() * 1800) - 60);
         this.asteroids.push(new Asteroid(this.randomX, -80, this));
     };
     Game.prototype.removeAsteroid = function (a) {
@@ -147,10 +158,10 @@ var Player = (function (_super) {
     Player.prototype.onKeyDown = function (event) {
         switch (event.keyCode) {
             case this.leftKey:
-                this.leftSpeed = 7;
+                this.leftSpeed = 10;
                 break;
             case this.rightKey:
-                this.rightSpeed = 7;
+                this.rightSpeed = 10;
                 break;
             case this.spacebar:
                 this.playerFire();
@@ -161,7 +172,6 @@ var Player = (function (_super) {
     };
     Player.prototype.playerFire = function () {
         var rect = this.div.getBoundingClientRect();
-        console.log("plaats een kogel op " + rect.left + " , " + rect.top);
         var b = new Bullet(rect.left + 26, rect.top - 31, this.game);
         this.game.addBullet(b);
     };
@@ -170,6 +180,8 @@ var Player = (function (_super) {
 var startScreen = (function () {
     function startScreen() {
         var _this = this;
+        var audio = new Audio('../docs/sounds/soundtrack.mp3');
+        audio.play();
         this.button = document.createElement('start_but');
         this.button.addEventListener("click", function () { return _this.deleteAll(); });
         document.body.appendChild(this.button);
