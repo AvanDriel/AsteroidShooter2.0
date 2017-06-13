@@ -7,8 +7,8 @@ class Asteroid extends Gameobject {
         this.speedY = 2;        
     }
 
-    // public moveAsteroid(){
-    //     this.posY += this.speedY;
-    //     this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
-    // }
+    public moveAsteroid(){
+        this.posY += this.speedY;
+        this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
+    }
 }
