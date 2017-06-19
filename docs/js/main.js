@@ -66,6 +66,7 @@ var Game = (function () {
         var _this = this;
         this.bullets = new Array();
         this.asteroids = new Array();
+        this.counter = 0;
         this.player = new Player(this);
         this.intervalID = setInterval(function () { return _this.createAsteroid(); }, 1400);
         requestAnimationFrame(function () { return _this.gameLoop(); });
@@ -89,6 +90,8 @@ var Game = (function () {
                     b.posX + b.width > a.posX &&
                     b.posY < a.posY + a.height &&
                     b.height + b.posY > a.posY) {
+                    this.counter = this.counter + 10;
+                    console.log(this.counter);
                     this.removeBullet(b);
                     this.removeAsteroid(a);
                 }

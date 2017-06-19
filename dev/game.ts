@@ -9,6 +9,7 @@ class Game {
     private asteroid : Asteroid;
     private randomX: number;
     private intervalID:number;
+    private counter: number = 0;
 
     constructor() {
     
@@ -36,8 +37,8 @@ class Game {
                      b.posX + b.width          > a.posX &&
                      b.posY                    < a.posY + a.height &&
                      b.height + b.posY         > a.posY) {  
-                        // this.counter++;
-                        // console.log(this.counter);
+                        this.counter = this.counter+10;
+                        console.log(this.counter);
 
                         this.removeBullet(b);
                         this.removeAsteroid(a);
@@ -74,6 +75,8 @@ class Game {
     }
 
     public removeAsteroid(a: Asteroid){
+       //this.style.backgroundimage ();
+       
         // div verwijderen
         a.removeAsteroidDiv();
 
