@@ -76,9 +76,13 @@ var EndScreen = (function () {
         this.button = document.createElement('restart_but');
         this.div = document.createElement('endScreen');
         document.body.appendChild(this.div);
-        this.div.innerHTML = 'Game over! Your score is :' + this.score;
+        this.div.innerHTML = 'Game over! Your score is : ' + this.score;
         this.button.addEventListener("click", function () { return _this.deleteAll(); });
         document.body.appendChild(this.button);
+        TweenLite.set(this.div, { x: 0, y: -450 });
+        TweenLite.to(this.div, 1, { y: 150, ease: Bounce.easeOut });
+        TweenLite.set(this.button, { x: 0, y: -750 });
+        TweenLite.to(this.button, 1, { y: -300, ease: Bounce.easeOut });
     }
     EndScreen.prototype.deleteAll = function () {
         this.button.remove();

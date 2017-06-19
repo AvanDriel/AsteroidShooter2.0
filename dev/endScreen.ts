@@ -9,10 +9,19 @@ class EndScreen {
 
         this.div = document.createElement('endScreen');
         document.body.appendChild(this.div);
-        this.div.innerHTML = 'Game over! Your score is :' + this.score;
+        this.div.innerHTML = 'Game over! Your score is : ' + this.score;
         
         this.button.addEventListener("click", () => this.deleteAll());
         document.body.appendChild(this.button);
+
+        //animation of div
+        TweenLite.set(this.div, {x:0, y:-450});
+        TweenLite.to(this.div, 1, {y:150, ease:Bounce.easeOut});
+        
+        //animation of button
+        TweenLite.set(this.button, {x:0, y:-750});
+        TweenLite.to(this.button, 1, {y:-300, ease:Bounce.easeOut});
+
     }
 
     deleteAll() {

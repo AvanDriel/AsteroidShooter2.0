@@ -30,10 +30,11 @@ start_but{
 
 restart_but{
     position: absolute; 
-    left: 0; right: 0; top:0;bottom: 100px;
+    display: block;
+    left: 0; right: 0; top:0;bottom: 0px;
     margin-left: auto; margin-right: auto; margin-top: auto;
     width: 450px; height: 170px;
-    background-image: url('../images/start_but.png');
+    background-image: url('../images/restartbutton.png');
 }
 
 title{
@@ -91,9 +92,11 @@ score {
 }
 
 endScreen {
+    font-family: 'VT323', monospace;
     text-align: center;
     position: absolute; 
-    left: 0; right: 0; top:100px;bottom: 0;
+    display: block;
+    left: 0; right: 0; top:0px;bottom: 0;
     margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto;
     color: white;
     font-size: 60px;
