@@ -61,6 +61,26 @@ var Bullet = (function (_super) {
     };
     return Bullet;
 }(Gameobject));
+var EndScreen = (function () {
+    function EndScreen(score) {
+        var _this = this;
+        this.score = score;
+        this.button = document.createElement('restart_but');
+        this.div = document.createElement('endScreen');
+        document.body.appendChild(this.div);
+        this.div.innerHTML = 'Game over! Your score is :' + this.score;
+        this.button.addEventListener("click", function () { return _this.deleteAll(); });
+        document.body.appendChild(this.button);
+    }
+    EndScreen.prototype.deleteAll = function () {
+        this.button.remove();
+        this.button = undefined;
+        this.div.remove();
+        this.div = undefined;
+        new Game();
+    };
+    return EndScreen;
+}());
 var Game = (function () {
     function Game() {
         var _this = this;
@@ -133,10 +153,31 @@ var Game = (function () {
             this.asteroids.splice(i, 1);
         }
     };
+    Game.prototype.removeAllAsteroids = function () {
+        for (var _i = 0, _a = this.asteroids; _i < _a.length; _i++) {
+            var a = _a[_i];
+            a.removeAsteroidDiv();
+        }
+        this.asteroids = [];
+    };
+    Game.prototype.removeAllBullets = function () {
+        for (var _i = 0, _a = this.bullets; _i < _a.length; _i++) {
+            var b = _a[_i];
+            b.removeBulletDiv();
+        }
+        this.bullets = [];
+    };
     Game.prototype.removePlayer = function (p) {
-        clearInterval(this.intervalID);
         p.removePlayerDiv();
-        this.player = undefined;
+        this.endGame();
+    };
+    Game.prototype.endGame = function () {
+        this.removeAllAsteroids();
+        this.removeAllBullets();
+        this.div.remove();
+        this.div = undefined;
+        clearInterval(this.intervalID);
+        new EndScreen(this.score);
     };
     return Game;
 }());

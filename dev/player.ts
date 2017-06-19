@@ -39,6 +39,8 @@ class Player extends Gameobject{
             this.posX += this.rightSpeed;
             this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
         }
+
+    
     }
 
     //what happens when you press the declared keys

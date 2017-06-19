@@ -27,49 +27,46 @@ class Game {
     }
     
     private gameLoop(){
-        this.player.move();
+            this.player.move();
 
-        for(let b of this.bullets){
-            b.moveBullet();
-        } 
+            for(let b of this.bullets){
+                b.moveBullet();
+            } 
 
-        for(let a of this.asteroids){
-            a.moveAsteroid();
-        }        
-
-        for(let b of this.bullets){
             for(let a of this.asteroids){
-                 if (b.posX                    < a.posX + a.width &&
-                     b.posX + b.width          > a.posX &&
-                     b.posY                    < a.posY + a.height &&
-                     b.height + b.posY         > a.posY) {  
-                        this.score = this.score+10;
-                        console.log(this.score);
-                        this.div.innerHTML='Score :' + this.score;
+                a.moveAsteroid();
+            }        
 
-                        this.removeBullet(b);
-                        this.removeAsteroid(a);
+            for(let b of this.bullets){
+                for(let a of this.asteroids){
+                    if (b.posX                    < a.posX + a.width &&
+                        b.posX + b.width          > a.posX &&
+                        b.posY                    < a.posY + a.height &&
+                        b.height + b.posY         > a.posY) {  
+                            this.score = this.score+10;
+                            console.log(this.score);
+                            this.div.innerHTML='Score :' + this.score;
+
+                            this.removeBullet(b);
+                            this.removeAsteroid(a);
+                    }
                 }
             }
-        }
 
-        
-            for(let a of this.asteroids){
-                 if (this.player.posX                    < a.posX + a.width &&
-                     this.player.posX + this.player.width          > a.posX &&
-                     this.player.posY                    < a.posY + a.height &&
-                     this.player.height + this.player.posY         > a.posY) {  
+            
+                for(let a of this.asteroids){
+                    if (this.player.posX                    < a.posX + a.width &&
+                        this.player.posX + this.player.width          > a.posX &&
+                        this.player.posY                    < a.posY + a.height &&
+                        this.player.height + this.player.posY         > a.posY) {  
 
-                        this.removePlayer(this.player);
-                
+                            this.removePlayer(this.player);
+                    
+                    }
                 }
-            }
         
-
-
-
-
-        requestAnimationFrame(() => this.gameLoop());
+            requestAnimationFrame(() => this.gameLoop());
+        
     }
 
     public addBullet(b:Bullet){
@@ -100,17 +97,41 @@ class Game {
         // div verwijderen
         a.removeAsteroidDiv();
 
-        // bullet instance verwijderen uit de array
+        // asteroid instance verwijderen uit de array
 		let i : number = this.asteroids.indexOf(a);
 		if(i != -1) {
 			this.asteroids.splice(i, 1);
 		}
     }
+    
+//remove all game objects
+    public removeAllAsteroids(){
+        for(let a of this.asteroids){
+            a.removeAsteroidDiv();
+        }  
+        this.asteroids = [];
+    }
+
+    public removeAllBullets(){
+        for(let b of this.bullets){
+            b.removeBulletDiv();
+        }
+        this.bullets = [];
+    }
 
     public removePlayer(p: Player){
-        clearInterval(this.intervalID);
         p.removePlayerDiv();
-        this.player = undefined;
+        this.endGame();
+    }
+
+    public endGame() {
+        this.removeAllAsteroids();
+        this.removeAllBullets();
+        this.div.remove();
+        this.div = undefined;
+        clearInterval(this.intervalID);
+        new EndScreen(this.score);
+
     }
     
 }
