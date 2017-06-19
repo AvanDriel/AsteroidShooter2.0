@@ -5,7 +5,14 @@ class Asteroid extends Gameobject {
         super("asteroid", 100, 100, x, y, game);
 
         this.game = game;
-        this.speedY = 2;        
+        
+        if (this.game.score > 200){
+            this.speedY = 3;
+        } else if(this.game.score > 400){
+            this.speedY = 4;
+        } else {
+            this.speedY = 2; 
+        }     
     }
 
     public moveAsteroid(){

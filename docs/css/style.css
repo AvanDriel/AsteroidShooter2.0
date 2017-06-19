@@ -73,3 +73,10 @@ endScreen {
     font-size: 60px;
 
 }
+
+explosion {
+    width: 100px;
+    height: 100px;
+    background-size: cover; 
+    background-image: url('../images/explosion_animation.gif')
+}

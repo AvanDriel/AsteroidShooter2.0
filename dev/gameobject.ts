@@ -1,6 +1,6 @@
 class Gameobject {
 
-    protected div:HTMLElement;
+    public div:HTMLElement;
     public width: number;
     public height: number;
     public posX: number;

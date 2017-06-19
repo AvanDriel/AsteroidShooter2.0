@@ -9,8 +9,10 @@ class Game {
     private asteroid : Asteroid;
     private randomX: number;
     private intervalID:number;
-    private score: number = 0;
+    public score: number = 0;
     private div:HTMLElement;
+    public explosions:Array<Explosion> = new Array<Explosion>();
+    private explosion: Explosion;
 
 
     constructor() {
@@ -47,7 +49,7 @@ class Game {
                             console.log(this.score);
                             this.div.innerHTML='Score :' + this.score;
 
-                            this.removeBullet(b);
+                            this.removeBullet(b);  
                             this.removeAsteroid(a);
                     }
                 }
@@ -85,15 +87,16 @@ class Game {
 	}
 
     public createAsteroid(){
-        this.randomX = Math.floor((Math.random() * 1800) - 60);
+        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 60);
         this.asteroids.push(
             new Asteroid(this.randomX, -80, this)
              );
     }
 
+
     public removeAsteroid(a: Asteroid){
-       //this.style.backgroundimage ();
-       
+        let rect:ClientRect = a.div.getBoundingClientRect();
+        this.createExplosion(rect.left, rect.top);
         // div verwijderen
         a.removeAsteroidDiv();
 
@@ -102,6 +105,12 @@ class Game {
 		if(i != -1) {
 			this.asteroids.splice(i, 1);
 		}
+    }
+
+    public createExplosion(x:number, y:number){
+            let e = new Explosion(x, y, this)
+            this.explosions.push(e);
+            
     }
     
 //remove all game objects
@@ -120,6 +129,8 @@ class Game {
     }
 
     public removePlayer(p: Player){
+        let rect:ClientRect = p.div.getBoundingClientRect();
+        this.createExplosion(rect.left, rect.top);
         p.removePlayerDiv();
         this.endGame();
     }
