@@ -9,13 +9,19 @@ class Game {
     private asteroid : Asteroid;
     private randomX: number;
     private intervalID:number;
-    private counter: number = 0;
+    private score: number = 0;
+    private div:HTMLElement;
+
 
     constructor() {
     
         this.player = new Player(this);
 
         this.intervalID = setInterval(()=> this.createAsteroid(), 1400);
+
+        this.div = document.createElement('score');
+        document.body.appendChild(this.div);
+        this.div.innerHTML = 'Score :' + this.score;
 
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -37,14 +43,28 @@ class Game {
                      b.posX + b.width          > a.posX &&
                      b.posY                    < a.posY + a.height &&
                      b.height + b.posY         > a.posY) {  
-                        this.counter = this.counter+10;
-                        console.log(this.counter);
+                        this.score = this.score+10;
+                        console.log(this.score);
+                        this.div.innerHTML='Score :' + this.score;
 
                         this.removeBullet(b);
                         this.removeAsteroid(a);
                 }
             }
         }
+
+        
+            for(let a of this.asteroids){
+                 if (this.player.posX                    < a.posX + a.width &&
+                     this.player.posX + this.player.width          > a.posX &&
+                     this.player.posY                    < a.posY + a.height &&
+                     this.player.height + this.player.posY         > a.posY) {  
+
+                        this.removePlayer(this.player);
+                
+                }
+            }
+        
 
 
 
@@ -85,6 +105,12 @@ class Game {
 		if(i != -1) {
 			this.asteroids.splice(i, 1);
 		}
+    }
+
+    public removePlayer(p: Player){
+        clearInterval(this.intervalID);
+        p.removePlayerDiv();
+        this.player = undefined;
     }
     
 }

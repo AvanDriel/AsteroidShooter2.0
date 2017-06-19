@@ -73,5 +73,9 @@ class Player extends Gameobject{
         audio.play();  
     }
 
+    public removePlayerDiv() {
+        this.div.remove();
+    }
+
 
 }

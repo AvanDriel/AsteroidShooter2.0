@@ -49,3 +49,9 @@ bullet{
 @keyframes rotate {
     100% { transform: rotate(360deg); }
 }
+
+score {
+    color: white;
+    font-size: 30px;
+    z-index: 100;
+}

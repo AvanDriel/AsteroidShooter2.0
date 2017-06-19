@@ -66,9 +66,12 @@ var Game = (function () {
         var _this = this;
         this.bullets = new Array();
         this.asteroids = new Array();
-        this.counter = 0;
+        this.score = 0;
         this.player = new Player(this);
         this.intervalID = setInterval(function () { return _this.createAsteroid(); }, 1400);
+        this.div = document.createElement('score');
+        document.body.appendChild(this.div);
+        this.div.innerHTML = 'Score :' + this.score;
         requestAnimationFrame(function () { return _this.gameLoop(); });
     }
     Game.prototype.gameLoop = function () {
@@ -90,11 +93,21 @@ var Game = (function () {
                     b.posX + b.width > a.posX &&
                     b.posY < a.posY + a.height &&
                     b.height + b.posY > a.posY) {
-                    this.counter = this.counter + 10;
-                    console.log(this.counter);
+                    this.score = this.score + 10;
+                    console.log(this.score);
+                    this.div.innerHTML = 'Score :' + this.score;
                     this.removeBullet(b);
                     this.removeAsteroid(a);
                 }
+            }
+        }
+        for (var _h = 0, _j = this.asteroids; _h < _j.length; _h++) {
+            var a = _j[_h];
+            if (this.player.posX < a.posX + a.width &&
+                this.player.posX + this.player.width > a.posX &&
+                this.player.posY < a.posY + a.height &&
+                this.player.height + this.player.posY > a.posY) {
+                this.removePlayer(this.player);
             }
         }
         requestAnimationFrame(function () { return _this.gameLoop(); });
@@ -119,6 +132,11 @@ var Game = (function () {
         if (i != -1) {
             this.asteroids.splice(i, 1);
         }
+    };
+    Game.prototype.removePlayer = function (p) {
+        clearInterval(this.intervalID);
+        p.removePlayerDiv();
+        this.player = undefined;
     };
     return Game;
 }());
@@ -179,6 +197,9 @@ var Player = (function (_super) {
         this.game.addBullet(b);
         var audio = new Audio('../docs/sounds/laser.mp3');
         audio.play();
+    };
+    Player.prototype.removePlayerDiv = function () {
+        this.div.remove();
     };
     return Player;
 }(Gameobject));
