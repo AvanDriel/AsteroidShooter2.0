@@ -7,14 +7,18 @@ class Game {
     private bullet: Bullet;
     public asteroids:Array<Asteroid> = new Array<Asteroid>();
     private asteroid : Asteroid;
+    public liveUps:Array<LiveUp> = new Array<LiveUp>();
+    private liveUp : LiveUp;
     private randomX: number;
     private intervalID:number;
+    private liveUpIntervalID:number;
     public score: number = 0;
     private div:HTMLElement;
     public explosions:Array<Explosion> = new Array<Explosion>();
     private explosion: Explosion;
     private lives: number = 3;
     public livecounter: LiveCounter;
+    public scoreCounter: HTMLElement;
 
 
     constructor() {
@@ -24,10 +28,13 @@ class Game {
         //create asteroid every 1.4s
         this.intervalID = setInterval(()=> this.createAsteroid(), 1400);
 
+        //create liveUp every 15 seconds
+        this.liveUpIntervalID = setInterval(()=> this.createLiveUp(), 15000);
+
         //create score
-        this.div = document.createElement('score');
-        document.body.appendChild(this.div);
-        this.div.innerHTML = 'Score :' + this.score;
+        this.scoreCounter = document.createElement('score');
+        document.body.appendChild(this.scoreCounter);
+        this.scoreCounter.innerHTML = 'Score :' + this.score;
         //create livecounter
         this.livecounter = new LiveCounter(this);
 
@@ -47,7 +54,12 @@ class Game {
             //asteroid movement
             for(let a of this.asteroids){
                 a.moveAsteroid();
-            }        
+            }   
+
+            //liveup movement
+            for(let l of this.liveUps){
+                l.moveLiveUp();
+            }       
 
             //bullet-asteroid collision
             for(let b of this.bullets){
@@ -58,7 +70,7 @@ class Game {
                         b.height + b.posY         > a.posY) {  
                             //give 10 points for every asteroid hit
                             this.score = this.score+10;
-                            this.div.innerHTML='Score :' + this.score;
+                            this.scoreCounter.innerHTML='Score :' + this.score;
                             this.removeBullet(b);  
                             this.removeAsteroid(a);
                     }
@@ -73,6 +85,17 @@ class Game {
                     this.player.height + this.player.posY         > a.posY) {  
                         this.removeAsteroid(a);
                         this.livecounter.playerHit();     
+                }
+            }
+
+            //player-live collision
+            for(let l of this.liveUps){
+                if (this.player.posX                    < l.posX + l.width &&
+                    this.player.posX + this.player.width          > l.posX &&
+                    this.player.posY                    < l.posY + l.height &&
+                    this.player.height + this.player.posY         > l.posY) {  
+                        this.removeLiveUp(l);
+                        this.livecounter.playerLiveUp();     
                 }
             }
         
@@ -97,9 +120,17 @@ class Game {
 
     //create asteroid, push to array
     public createAsteroid(){
-        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 60);
+        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 50);
         this.asteroids.push(
             new Asteroid(this.randomX, -80, this)
+             );
+    }
+
+    //create liveup, push to array
+    public createLiveUp(){
+        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 18);
+        this.liveUps.push(
+            new LiveUp(this.randomX, -80, this)
              );
     }
 
@@ -117,6 +148,16 @@ class Game {
 		}
     }
 
+    public removeLiveUp(l: LiveUp){
+        // remove div
+        l.removeLiveUpDiv();
+        // delete liveup instance from array
+		let i : number = this.liveUps.indexOf(l);
+		if(i != -1) {
+			this.liveUps.splice(i, 1);
+		}
+    }
+
     //create explosion
     public createExplosion(x:number, y:number){
             let e = new Explosion(x, y, this)
@@ -130,6 +171,13 @@ class Game {
             a.removeAsteroidDiv();
         }  
         this.asteroids = [];
+    }
+
+    public removeAllLiveUps(){
+        for(let l of this.liveUps){
+            l.removeLiveUpDiv();
+        }  
+        this.liveUps = [];
     }
 
     public removeAllBullets(){
@@ -149,9 +197,11 @@ class Game {
     public endGame() {
         this.removeAllAsteroids();
         this.removeAllBullets();
-        this.div.remove();
-        this.div = undefined;
+        this.removeAllLiveUps()
+        this.scoreCounter.remove();
+        this.scoreCounter = undefined;
         clearInterval(this.intervalID);
+        clearInterval(this.liveUpIntervalID);
         //create endscreen
         new EndScreen(this.score);
 

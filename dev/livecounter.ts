@@ -48,4 +48,22 @@ class LiveCounter{
             console.log(this.lives);
         }  
     }
+
+    public playerLiveUp(){
+        if(this.lives < 3){
+            if(this.lives == 0){
+                this.live1.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+            } else if(this.lives == 1){
+                this.live2.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+            } else if(this.lives == 2){
+                this.live3.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+            }
+
+            this.lives = this.lives + 1;
+        } else {
+            //If you have max lives, get 25 points!
+            this.game.score = this.game.score + 25;
+            this.game.scoreCounter.innerHTML='Score :' + this.game.score;
+        }       
+    }
 }

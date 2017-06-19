@@ -24,11 +24,14 @@ var Asteroid = (function (_super) {
     function Asteroid(x, y, game) {
         var _this = _super.call(this, "asteroid", 100, 100, x, y, game) || this;
         _this.game = game;
-        if (_this.game.score > 200) {
+        if (_this.game.score > 500) {
             _this.speedY = 3;
         }
-        else if (_this.game.score > 400) {
+        else if (_this.game.score > 800) {
             _this.speedY = 4;
+        }
+        else if (_this.game.score > 1200) {
+            _this.speedY = 5;
         }
         else {
             _this.speedY = 2;
@@ -116,14 +119,16 @@ var Game = (function () {
         var _this = this;
         this.bullets = new Array();
         this.asteroids = new Array();
+        this.liveUps = new Array();
         this.score = 0;
         this.explosions = new Array();
         this.lives = 3;
         this.player = new Player(this);
         this.intervalID = setInterval(function () { return _this.createAsteroid(); }, 1400);
-        this.div = document.createElement('score');
-        document.body.appendChild(this.div);
-        this.div.innerHTML = 'Score :' + this.score;
+        this.liveUpIntervalID = setInterval(function () { return _this.createLiveUp(); }, 15000);
+        this.scoreCounter = document.createElement('score');
+        document.body.appendChild(this.scoreCounter);
+        this.scoreCounter.innerHTML = 'Score :' + this.score;
         this.livecounter = new LiveCounter(this);
         requestAnimationFrame(function () { return _this.gameLoop(); });
     }
@@ -138,29 +143,43 @@ var Game = (function () {
             var a = _c[_b];
             a.moveAsteroid();
         }
-        for (var _d = 0, _e = this.bullets; _d < _e.length; _d++) {
-            var b = _e[_d];
-            for (var _f = 0, _g = this.asteroids; _f < _g.length; _f++) {
-                var a = _g[_f];
+        for (var _d = 0, _e = this.liveUps; _d < _e.length; _d++) {
+            var l = _e[_d];
+            l.moveLiveUp();
+        }
+        for (var _f = 0, _g = this.bullets; _f < _g.length; _f++) {
+            var b = _g[_f];
+            for (var _h = 0, _j = this.asteroids; _h < _j.length; _h++) {
+                var a = _j[_h];
                 if (b.posX < a.posX + a.width &&
                     b.posX + b.width > a.posX &&
                     b.posY < a.posY + a.height &&
                     b.height + b.posY > a.posY) {
                     this.score = this.score + 10;
-                    this.div.innerHTML = 'Score :' + this.score;
+                    this.scoreCounter.innerHTML = 'Score :' + this.score;
                     this.removeBullet(b);
                     this.removeAsteroid(a);
                 }
             }
         }
-        for (var _h = 0, _j = this.asteroids; _h < _j.length; _h++) {
-            var a = _j[_h];
+        for (var _k = 0, _l = this.asteroids; _k < _l.length; _k++) {
+            var a = _l[_k];
             if (this.player.posX < a.posX + a.width &&
                 this.player.posX + this.player.width > a.posX &&
                 this.player.posY < a.posY + a.height &&
                 this.player.height + this.player.posY > a.posY) {
                 this.removeAsteroid(a);
                 this.livecounter.playerHit();
+            }
+        }
+        for (var _m = 0, _o = this.liveUps; _m < _o.length; _m++) {
+            var l = _o[_m];
+            if (this.player.posX < l.posX + l.width &&
+                this.player.posX + this.player.width > l.posX &&
+                this.player.posY < l.posY + l.height &&
+                this.player.height + this.player.posY > l.posY) {
+                this.removeLiveUp(l);
+                this.livecounter.playerLiveUp();
             }
         }
         requestAnimationFrame(function () { return _this.gameLoop(); });
@@ -176,8 +195,12 @@ var Game = (function () {
         }
     };
     Game.prototype.createAsteroid = function () {
-        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 60);
+        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 50);
         this.asteroids.push(new Asteroid(this.randomX, -80, this));
+    };
+    Game.prototype.createLiveUp = function () {
+        this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 18);
+        this.liveUps.push(new LiveUp(this.randomX, -80, this));
     };
     Game.prototype.removeAsteroid = function (a) {
         var rect = a.div.getBoundingClientRect();
@@ -186,6 +209,13 @@ var Game = (function () {
         var i = this.asteroids.indexOf(a);
         if (i != -1) {
             this.asteroids.splice(i, 1);
+        }
+    };
+    Game.prototype.removeLiveUp = function (l) {
+        l.removeLiveUpDiv();
+        var i = this.liveUps.indexOf(l);
+        if (i != -1) {
+            this.liveUps.splice(i, 1);
         }
     };
     Game.prototype.createExplosion = function (x, y) {
@@ -198,6 +228,13 @@ var Game = (function () {
             a.removeAsteroidDiv();
         }
         this.asteroids = [];
+    };
+    Game.prototype.removeAllLiveUps = function () {
+        for (var _i = 0, _a = this.liveUps; _i < _a.length; _i++) {
+            var l = _a[_i];
+            l.removeLiveUpDiv();
+        }
+        this.liveUps = [];
     };
     Game.prototype.removeAllBullets = function () {
         for (var _i = 0, _a = this.bullets; _i < _a.length; _i++) {
@@ -215,9 +252,11 @@ var Game = (function () {
     Game.prototype.endGame = function () {
         this.removeAllAsteroids();
         this.removeAllBullets();
-        this.div.remove();
-        this.div = undefined;
+        this.removeAllLiveUps();
+        this.scoreCounter.remove();
+        this.scoreCounter = undefined;
         clearInterval(this.intervalID);
+        clearInterval(this.liveUpIntervalID);
         new EndScreen(this.score);
     };
     return Game;
@@ -258,8 +297,46 @@ var LiveCounter = (function () {
             console.log(this.lives);
         }
     };
+    LiveCounter.prototype.playerLiveUp = function () {
+        if (this.lives < 3) {
+            if (this.lives == 0) {
+                this.live1.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+            }
+            else if (this.lives == 1) {
+                this.live2.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+            }
+            else if (this.lives == 2) {
+                this.live3.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+            }
+            this.lives = this.lives + 1;
+        }
+        else {
+            this.game.score = this.game.score + 25;
+            this.game.scoreCounter.innerHTML = 'Score :' + this.game.score;
+        }
+    };
     return LiveCounter;
 }());
+var LiveUp = (function (_super) {
+    __extends(LiveUp, _super);
+    function LiveUp(x, y, game) {
+        var _this = _super.call(this, "liveUp", 36, 32, x, y, game) || this;
+        _this.game = game;
+        _this.speedY = 2;
+        return _this;
+    }
+    LiveUp.prototype.moveLiveUp = function () {
+        this.posY += this.speedY;
+        this.div.style.transform = "translate(" + this.posX + "px," + this.posY + "px)";
+        if (this.posY > (window.innerHeight + 100)) {
+            this.game.removeLiveUp(this);
+        }
+    };
+    LiveUp.prototype.removeLiveUpDiv = function () {
+        this.div.remove();
+    };
+    return LiveUp;
+}(Gameobject));
 window.addEventListener("load", function () {
     new startScreen();
 });
@@ -332,11 +409,11 @@ var startScreen = (function () {
         this.title.innerHTML = 'Welcome to the original Asteroid Shooter!';
         document.body.appendChild(this.title);
         this.text = document.createElement('text');
-        this.text.innerHTML = 'Press start to play';
+        this.text.innerHTML = "Shoot the asteroids before they hit the Earth, and don't get hit yourself";
         document.body.appendChild(this.text);
-        this.discription = document.createElement('text');
-        this.discription.innerHTML = 'Move left and right with the A and D key, press spacebar to shoot';
-        document.body.appendChild(this.discription);
+        this.description = document.createElement('text');
+        this.description.innerHTML = 'Move left and right with the A and D key, press spacebar to shoot';
+        document.body.appendChild(this.description);
         this.button = document.createElement('start_but');
         this.button.addEventListener("click", function () { return _this.deleteAll(); });
         document.body.appendChild(this.button);
@@ -344,16 +421,16 @@ var startScreen = (function () {
         TweenLite.to(this.title, 1, { y: 150, ease: Bounce.easeOut });
         TweenLite.set(this.text, { x: 0, y: -500 });
         TweenLite.to(this.text, 1, { y: 300, ease: Bounce.easeOut });
-        TweenLite.set(this.discription, { x: 0, y: -500 });
-        TweenLite.to(this.discription, 1, { y: 350, ease: Bounce.easeOut });
+        TweenLite.set(this.description, { x: 0, y: -500 });
+        TweenLite.to(this.description, 1, { y: 350, ease: Bounce.easeOut });
         TweenLite.set(this.button, { x: 0, y: -400 });
         TweenLite.to(this.button, 1, { y: 500, ease: Bounce.easeOut });
     }
     startScreen.prototype.deleteAll = function () {
         this.text.remove();
         this.text = undefined;
-        this.discription.remove();
-        this.discription = undefined;
+        this.description.remove();
+        this.description = undefined;
         this.title.remove();
         this.title = undefined;
         this.button.remove();

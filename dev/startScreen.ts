@@ -2,7 +2,7 @@ class startScreen {
     public button: HTMLElement;
     public title: HTMLElement;
     public text: HTMLElement;
-    public discription: HTMLElement;
+    public description: HTMLElement;
 
     constructor() {
         var audio = new Audio('../docs/sounds/soundtrack.mp3');
@@ -15,13 +15,13 @@ class startScreen {
 
         // create game description
         this.text = document.createElement('text');
-        this.text.innerHTML = 'Press start to play'
+        this.text.innerHTML = "Shoot the asteroids before they hit the Earth, and don't get hit yourself"
         document.body.appendChild(this.text);
 
         //creating description for controls
-        this.discription = document.createElement('text');
-        this.discription.innerHTML = 'Move left and right with the A and D key, press spacebar to shoot'
-        document.body.appendChild(this.discription);
+        this.description = document.createElement('text');
+        this.description.innerHTML = 'Move left and right with the A and D key, press spacebar to shoot'
+        document.body.appendChild(this.description);
 
         //create start_but div.
         this.button = document.createElement('start_but');
@@ -38,8 +38,8 @@ class startScreen {
         TweenLite.to(this.text, 1, {y:300, ease:Bounce.easeOut});
 
         //Dropdown animation for description controls
-        TweenLite.set(this.discription, {x:0, y:-500})
-        TweenLite.to(this.discription, 1, {y:350, ease:Bounce.easeOut});
+        TweenLite.set(this.description, {x:0, y:-500})
+        TweenLite.to(this.description, 1, {y:350, ease:Bounce.easeOut});
 
         //Dropdown animation for Button
         TweenLite.set(this.button, {x:0, y:-400});
@@ -48,8 +48,8 @@ class startScreen {
     deleteAll() {
         this.text.remove();
         this.text = undefined;
-        this.discription.remove();
-        this.discription = undefined;
+        this.description.remove();
+        this.description = undefined;
         this.title.remove();
         this.title = undefined;
         this.button.remove();

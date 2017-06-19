@@ -72,6 +72,13 @@ asteroid {
     background-position: center;   
 }
 
+liveUp {
+    width: 36px; height: 32px;
+    background-image: url('../images/lives/PNGs/heart-full.png');
+    background-size: cover;
+    background-position: center;   
+}
+
 bullet{
     background-image: url('../images/bullet.png');
     width: 13px; height: 54px;
