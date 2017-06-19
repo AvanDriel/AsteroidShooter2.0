@@ -19,8 +19,10 @@ class Game {
     
         this.player = new Player(this);
 
+        //create asteroid every 1.4s
         this.intervalID = setInterval(()=> this.createAsteroid(), 1400);
 
+        //create score
         this.div = document.createElement('score');
         document.body.appendChild(this.div);
         this.div.innerHTML = 'Score :' + this.score;
@@ -29,63 +31,67 @@ class Game {
     }
     
     private gameLoop(){
+            //player movement
             this.player.move();
 
+            //bullet movement
             for(let b of this.bullets){
                 b.moveBullet();
             } 
 
+            //asteroid movement
             for(let a of this.asteroids){
                 a.moveAsteroid();
             }        
 
+            //bullet-asteroid collision
             for(let b of this.bullets){
                 for(let a of this.asteroids){
                     if (b.posX                    < a.posX + a.width &&
                         b.posX + b.width          > a.posX &&
                         b.posY                    < a.posY + a.height &&
                         b.height + b.posY         > a.posY) {  
+                            //give 10 points for every asteroid hit
                             this.score = this.score+10;
-                            console.log(this.score);
                             this.div.innerHTML='Score :' + this.score;
-
                             this.removeBullet(b);  
                             this.removeAsteroid(a);
                     }
                 }
             }
 
-            
-                for(let a of this.asteroids){
-                    if (this.player.posX                    < a.posX + a.width &&
-                        this.player.posX + this.player.width          > a.posX &&
-                        this.player.posY                    < a.posY + a.height &&
-                        this.player.height + this.player.posY         > a.posY) {  
+            //player-asteroid collision
+            for(let a of this.asteroids){
+                if (this.player.posX                    < a.posX + a.width &&
+                    this.player.posX + this.player.width          > a.posX &&
+                    this.player.posY                    < a.posY + a.height &&
+                    this.player.height + this.player.posY         > a.posY) {  
 
-                            this.removePlayer(this.player);
+                        this.removePlayer(this.player);
                     
-                    }
                 }
+            }
         
-            requestAnimationFrame(() => this.gameLoop());
-        
+            requestAnimationFrame(() => this.gameLoop());   
     }
 
+    //push bullet to array
     public addBullet(b:Bullet){
         this.bullets.push(b);
     }
 
     public removeBullet(b: Bullet) {
-        // div verwijderen
+        // remove div
         b.removeBulletDiv();
 
-        // bullet instance verwijderen uit de array
+        // delete bullet instance from array
 		let i : number = this.bullets.indexOf(b);
 		if(i != -1) {
 			this.bullets.splice(i, 1);
 		}
 	}
 
+    //create asteroid, push to array
     public createAsteroid(){
         this.randomX = Math.floor((Math.random() * (window.innerWidth)) - 60);
         this.asteroids.push(
@@ -93,27 +99,28 @@ class Game {
              );
     }
 
-
+    //remove asteroid
     public removeAsteroid(a: Asteroid){
+        //get the asteroids position, create an explosion where the asteroid was hit
         let rect:ClientRect = a.div.getBoundingClientRect();
         this.createExplosion(rect.left, rect.top);
-        // div verwijderen
+        // remove div
         a.removeAsteroidDiv();
-
-        // asteroid instance verwijderen uit de array
+        // delete asteroid instance from array
 		let i : number = this.asteroids.indexOf(a);
 		if(i != -1) {
 			this.asteroids.splice(i, 1);
 		}
     }
 
+    //create explosion
     public createExplosion(x:number, y:number){
             let e = new Explosion(x, y, this)
             this.explosions.push(e);
             
     }
     
-//remove all game objects
+    //remove all game objects
     public removeAllAsteroids(){
         for(let a of this.asteroids){
             a.removeAsteroidDiv();
@@ -141,6 +148,7 @@ class Game {
         this.div.remove();
         this.div = undefined;
         clearInterval(this.intervalID);
+        //create endscreen
         new EndScreen(this.score);
 
     }

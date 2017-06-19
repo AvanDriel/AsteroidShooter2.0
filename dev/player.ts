@@ -18,13 +18,12 @@ class Player extends Gameobject{
         
         this.game = g;
 
-        // this.div.style.transform = "translate("+this.posX+"px,"+this.posY+"px)";
-
         //add keypress listener
         window.addEventListener("keydown", (e:KeyboardEvent) => this.onKeyDown(e));
         window.addEventListener("keyup", (e:KeyboardEvent) => this.onKeyUp(e));
     }
 
+    //player movement
     public move(){
         if(this.posX < 1){
             this.leftSpeed = 0;
@@ -75,6 +74,7 @@ class Player extends Gameobject{
         audio.play();  
     }
 
+    //remove player div
     public removePlayerDiv() {
         this.div.remove();
     }

@@ -5,12 +5,15 @@ class EndScreen {
 
     constructor(score:number) {
         this.score = score;
+        //create restart button
         this.button = document.createElement('restart_but');
 
+        //create endscreen text
         this.div = document.createElement('endScreen');
         document.body.appendChild(this.div);
         this.div.innerHTML = 'Game over! Your score is : ' + this.score;
         
+        //event listerner restart button
         this.button.addEventListener("click", () => this.deleteAll());
         document.body.appendChild(this.button);
 
@@ -24,6 +27,7 @@ class EndScreen {
 
     }
 
+//restart game
     deleteAll() {
         this.button.remove();
         this.button = undefined;

@@ -144,7 +144,6 @@ var Game = (function () {
                     b.posY < a.posY + a.height &&
                     b.height + b.posY > a.posY) {
                     this.score = this.score + 10;
-                    console.log(this.score);
                     this.div.innerHTML = 'Score :' + this.score;
                     this.removeBullet(b);
                     this.removeAsteroid(a);

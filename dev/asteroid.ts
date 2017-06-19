@@ -6,6 +6,7 @@ class Asteroid extends Gameobject {
 
         this.game = game;
         
+        //speed up the game after x score
         if (this.game.score > 200){
             this.speedY = 3;
         } else if(this.game.score > 400){
