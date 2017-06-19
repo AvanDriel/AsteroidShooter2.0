@@ -287,13 +287,13 @@ var startScreen = (function () {
         var audio = new Audio('../docs/sounds/soundtrack.mp3');
         audio.play();
         this.title = document.createElement('title');
-        this.title.innerHTML = 'Welkom bij DE orginele Asteroid Shooter.';
+        this.title.innerHTML = 'Welcome to the original Asteroid Shooter!';
         document.body.appendChild(this.title);
         this.text = document.createElement('text');
-        this.text.innerHTML = 'Om de game te kunnen spelen druk je op start.';
+        this.text.innerHTML = 'Press start to play';
         document.body.appendChild(this.text);
         this.discription = document.createElement('text');
-        this.discription.innerHTML = 'Controls: A & D om te bewegen, spatie om te schieten.';
+        this.discription.innerHTML = 'Move left and right with the A and D key, press spacebar to shoot';
         document.body.appendChild(this.discription);
         this.button = document.createElement('start_but');
         this.button.addEventListener("click", function () { return _this.deleteAll(); });

@@ -10,17 +10,17 @@ class startScreen {
         
         //create title
         this.title = document.createElement('title');
-        this.title.innerHTML = 'Welkom bij DE orginele Asteroid Shooter.';
+        this.title.innerHTML = 'Welcome to the original Asteroid Shooter!';
         document.body.appendChild(this.title);
 
         // create game description
         this.text = document.createElement('text');
-        this.text.innerHTML = 'Om de game te kunnen spelen druk je op start.'
+        this.text.innerHTML = 'Press start to play'
         document.body.appendChild(this.text);
 
         //creating description for controls
         this.discription = document.createElement('text');
-        this.discription.innerHTML = 'Controls: A & D om te bewegen, spatie om te schieten.'
+        this.discription.innerHTML = 'Move left and right with the A and D key, press spacebar to shoot'
         document.body.appendChild(this.discription);
 
         //create start_but div.
