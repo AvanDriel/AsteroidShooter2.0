@@ -19,10 +19,13 @@ start_but{
     position: absolute; 
     left: 0; right: 0; top:0;bottom: 0;
     margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto;
-    width: 450px; height: 170px;
+    width: 200px; height: 85px;
     background-image: url('../images/start_but.png');
     background-size: cover;
     background-position: center;
+    display:block;
+    margin: 0 auto;
+    text-align: center;
 }
 
 restart_but{
@@ -31,6 +34,28 @@ restart_but{
     margin-left: auto; margin-right: auto; margin-top: auto;
     width: 450px; height: 170px;
     background-image: url('../images/start_but.png');
+}
+
+title{
+    font-size: 60px;
+    font-family: 'VT323', monospace;
+    color: white;
+    display:block;
+    margin: 0 auto;
+    text-align: center;
+    left: 0; right: 0; top:0;bottom: 0;
+    margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto;
+}
+
+text{
+    font-size: 45px;
+    font-family: 'VT323', monospace;
+    color: white;
+    display:block;
+    margin: 0 auto;
+    text-align: center;
+    left: 0; right: 0; top:0;bottom: 0;
+    margin-left: auto; margin-right: auto; margin-top: auto; margin-bottom: auto;
 }
 
 player {
