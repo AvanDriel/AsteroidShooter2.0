@@ -2,7 +2,7 @@
 
 class Game {
 
-    private player : Player;
+    public player : Player;
     public bullets:Array<Bullet> = new Array<Bullet>();
     private bullet: Bullet;
     public asteroids:Array<Asteroid> = new Array<Asteroid>();
@@ -13,6 +13,8 @@ class Game {
     private div:HTMLElement;
     public explosions:Array<Explosion> = new Array<Explosion>();
     private explosion: Explosion;
+    private lives: number = 3;
+    private livecounter: LiveCounter;
 
 
     constructor() {
@@ -26,6 +28,9 @@ class Game {
         this.div = document.createElement('score');
         document.body.appendChild(this.div);
         this.div.innerHTML = 'Score :' + this.score;
+        //create livecounter
+        this.livecounter = new LiveCounter(this);
+
 
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -66,9 +71,8 @@ class Game {
                     this.player.posX + this.player.width          > a.posX &&
                     this.player.posY                    < a.posY + a.height &&
                     this.player.height + this.player.posY         > a.posY) {  
-
-                        this.removePlayer(this.player);
-                    
+                        this.removeAsteroid(a);
+                        this.livecounter.playerHit();     
                 }
             }
         

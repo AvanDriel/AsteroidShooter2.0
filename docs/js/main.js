@@ -117,11 +117,13 @@ var Game = (function () {
         this.asteroids = new Array();
         this.score = 0;
         this.explosions = new Array();
+        this.lives = 3;
         this.player = new Player(this);
         this.intervalID = setInterval(function () { return _this.createAsteroid(); }, 1400);
         this.div = document.createElement('score');
         document.body.appendChild(this.div);
         this.div.innerHTML = 'Score :' + this.score;
+        this.livecounter = new LiveCounter(this);
         requestAnimationFrame(function () { return _this.gameLoop(); });
     }
     Game.prototype.gameLoop = function () {
@@ -156,7 +158,8 @@ var Game = (function () {
                 this.player.posX + this.player.width > a.posX &&
                 this.player.posY < a.posY + a.height &&
                 this.player.height + this.player.posY > a.posY) {
-                this.removePlayer(this.player);
+                this.removeAsteroid(a);
+                this.livecounter.playerHit();
             }
         }
         requestAnimationFrame(function () { return _this.gameLoop(); });
@@ -217,6 +220,44 @@ var Game = (function () {
         new EndScreen(this.score);
     };
     return Game;
+}());
+var LiveCounter = (function () {
+    function LiveCounter(g) {
+        this.lives = 3;
+        this.game = g;
+        this.liveCounter = document.createElement('liveCounter');
+        document.body.appendChild(this.liveCounter);
+        this.liveCounter.innerHTML = 'Lives :';
+        this.live1 = document.createElement('live1');
+        document.body.appendChild(this.live1);
+        this.live1.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+        this.live2 = document.createElement('live2');
+        document.body.appendChild(this.live2);
+        this.live2.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+        this.live3 = document.createElement('live3');
+        document.body.appendChild(this.live3);
+        this.live3.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
+    }
+    LiveCounter.prototype.playerHit = function () {
+        if (this.lives < 1) {
+            this.game.removePlayer(this.game.player);
+            console.log('levens te laag');
+        }
+        else {
+            if (this.lives == 3) {
+                this.live3.style.backgroundImage = "url('images/lives/PNGs/heart-empty.png')";
+            }
+            else if (this.lives == 2) {
+                this.live2.style.backgroundImage = "url('images/lives/PNGs/heart-empty.png')";
+            }
+            else if (this.lives == 1) {
+                this.live1.style.backgroundImage = "url('images/lives/PNGs/heart-empty.png')";
+            }
+            this.lives = this.lives - 1;
+            console.log(this.lives);
+        }
+    };
+    return LiveCounter;
 }());
 window.addEventListener("load", function () {
     new startScreen();
