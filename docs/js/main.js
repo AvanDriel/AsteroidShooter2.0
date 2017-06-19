@@ -40,6 +40,7 @@ var Asteroid = (function (_super) {
         this.div.style.transform = "translate(" + this.posX + "px," + this.posY + "px)";
         if (this.posY > (window.innerHeight + 100)) {
             this.game.removeAsteroid(this);
+            this.game.livecounter.playerHit();
         }
     };
     Asteroid.prototype.removeAsteroidDiv = function () {

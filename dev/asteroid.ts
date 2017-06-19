@@ -22,6 +22,7 @@ class Asteroid extends Gameobject {
 
         if(this.posY>(window.innerHeight+100)){
             this.game.removeAsteroid(this);
+            this.game.livecounter.playerHit();
         }
     }
 

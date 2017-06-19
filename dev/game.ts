@@ -14,7 +14,7 @@ class Game {
     public explosions:Array<Explosion> = new Array<Explosion>();
     private explosion: Explosion;
     private lives: number = 3;
-    private livecounter: LiveCounter;
+    public livecounter: LiveCounter;
 
 
     constructor() {
