@@ -50,6 +50,8 @@ class LiveCounter{
     }
 
     public playerLiveUp(){
+        var audio = new Audio('../docs/sounds/powerup.wav');
+        audio.play(); 
         if(this.lives < 3){
             if(this.lives == 0){
                 this.live1.style.backgroundImage = "url('images/lives/PNGs/heart-full.png')";
