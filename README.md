@@ -1,37 +1,37 @@
-## Welcome to GitHub Pages
+#Astroid Shooter 2.0
 
-You can use the [editor on GitHub](https://github.com/AvanDriel/AsteroidShooter2.0/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+##Demo
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+http://alwinvandriel.nl/docs/
 
-### Markdown
+##Handleiding
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Door op de start knop te klikken start je het spel. Doormiddel van A & D kan je het ruimteschip van links en naar rechts besturen. Met spatie kan je kogels schieten. Je begint met 3 levens elke keer dat je een astroid raakt gaat er een leven af. Je kan er een leven bij krijgen door de hartjes op te pakken die tervoorschijn komen.
 
-```markdown
-Syntax highlighted code block
+##Installatiehandleiding
 
-# Header 1
-## Header 2
-### Header 3
+Om het spel te kunnen spelen. Kun je het project downloaden of forken. Plaats het project naar een gewenste locatie(bijvoorbeeld htdocs, voor lokale host).Ga dan naar het mapje docs en dubbel klik op "index.html" bestand en de game zal starten in uw browser.
 
-- Bulleted
-- List
+##Instances
 
-1. Numbered
-2. List
+Door gebruik te maken van instances kan ik vanuit game, elementen uit andere classes oproepen en visueel zichtbaar maken zoals een spaceship en atroid.
 
-**Bold** and _Italic_ and `Code` text
+##Classes
 
-[Link](url) and ![Image](src)
-```
+Door dat er gebruikt word gemaakt van classes word de code opgesplits waarbij elk element zijn eigen class heeft. Hierdoor creeer je overzichtelijke en gestructureerde code.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+##Composition
 
-### Jekyll Themes
+Met composition hebben wij er voor gezorgd dat wij met een bepaalde class een andere class kunnen aanmaken. Binnen onze game wordt er bijvoorbeeld een astroid en een spaceship aangemaakt.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/AvanDriel/AsteroidShooter2.0/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+##Encapsulation
 
-### Support or Contact
+Omdat wij gebruik maken van encapsulation zorgen wij ervoor dat de variabele in de classes op de juiste maniet worden afgeschermd. Dit heeft het voordeel gehad dat wij van elkaar konden zien welke variabele er gebruikt konden worden.
 
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+##Inherticance
+
+De class gameobjects heeft meerdere classes die de class gameobjects extenden bijvoorbeeld: Bullets, Astroid, Explosion, LiveCounter, LiveUp en player. Deze clesses gebruiken allemaal de onderdelen uit de class gameobjects. Alleen deze classes kunnen gebruiken van deze onderdelen.
+
+##UML van de game
+
+![UML](docs/images/UML asteroid shooter.jpg "UML")
