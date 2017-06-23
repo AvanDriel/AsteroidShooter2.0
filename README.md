@@ -34,4 +34,4 @@ De class gameobjects heeft meerdere classes die de class gameobjects extenden bi
 
 ##UML van de game
 
-![UML](docs/images/UML asteroid shooter.jpg "UML")
+![UML](docs/images/UML_asteroid_shooter.jpg?raw=true "UML")
