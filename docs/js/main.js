@@ -123,6 +123,7 @@ var Game = (function () {
         this.score = 0;
         this.explosions = new Array();
         this.lives = 3;
+        this.gameover = false;
         this.player = new Player(this);
         this.intervalID = setInterval(function () { return _this.createAsteroid(); }, 1400);
         this.liveUpIntervalID = setInterval(function () { return _this.createLiveUp(); }, 15000);
@@ -130,7 +131,10 @@ var Game = (function () {
         document.body.appendChild(this.scoreCounter);
         this.scoreCounter.innerHTML = 'Score :' + this.score;
         this.livecounter = new LiveCounter(this);
-        requestAnimationFrame(function () { return _this.gameLoop(); });
+        if (this.gameover == false) {
+            requestAnimationFrame(function () { return _this.gameLoop(); });
+        }
+        ;
     }
     Game.prototype.gameLoop = function () {
         var _this = this;
@@ -257,6 +261,7 @@ var Game = (function () {
         this.scoreCounter = undefined;
         clearInterval(this.intervalID);
         clearInterval(this.liveUpIntervalID);
+        this.gameover = true;
         new EndScreen(this.score);
     };
     return Game;
