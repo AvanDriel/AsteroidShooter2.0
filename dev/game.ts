@@ -19,6 +19,7 @@ class Game {
     private lives: number = 3;
     public livecounter: LiveCounter;
     public scoreCounter: HTMLElement;
+    private gameover: boolean = false;
 
 
     constructor() {
@@ -38,8 +39,9 @@ class Game {
         //create livecounter
         this.livecounter = new LiveCounter(this);
 
-
-        requestAnimationFrame(() => this.gameLoop());
+        if(this.gameover == false){
+            requestAnimationFrame(() => this.gameLoop());
+        };
     }
     
     private gameLoop(){
@@ -202,6 +204,7 @@ class Game {
         this.scoreCounter = undefined;
         clearInterval(this.intervalID);
         clearInterval(this.liveUpIntervalID);
+        this.gameover = true;
         //create endscreen
         new EndScreen(this.score);
 
