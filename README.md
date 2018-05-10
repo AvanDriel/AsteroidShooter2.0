@@ -2,7 +2,7 @@
 
 ### Demo
 
-http://avandriel.nl/docs/
+http://avandriel.nl/asteroidshooter/
 
 ### About this project
 This is a typescript-based game made for our programming class. 
