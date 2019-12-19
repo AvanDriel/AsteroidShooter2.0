@@ -1,9 +1,5 @@
 # Astroid Shooter 2.0
 
-### Demo
-
-http://avandriel.nl/asteroidshooter/
-
 ### About this project
 This is a typescript-based game made for our programming class. 
 
